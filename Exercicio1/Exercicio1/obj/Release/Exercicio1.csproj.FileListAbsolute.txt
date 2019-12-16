@@ -1,0 +1,5 @@
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\Exercicio1\bin\Release\Exercicio1.exe.config
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\Exercicio1\bin\Release\Exercicio1.exe
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\Exercicio1\bin\Release\Exercicio1.pdb
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\Exercicio1\obj\Release\Exercicio1.exe
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\Exercicio1\obj\Release\Exercicio1.pdb

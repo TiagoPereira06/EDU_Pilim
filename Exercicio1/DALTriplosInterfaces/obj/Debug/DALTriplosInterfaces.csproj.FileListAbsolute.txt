@@ -1,0 +1,13 @@
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\bin\Debug\DALTriplosInterfaces.dll.config
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\bin\Debug\DALTriplosInterfaces.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\bin\Debug\DALTriplosInterfaces.pdb
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\bin\Debug\DALAbstraction.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\bin\Debug\Entidades.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\bin\Debug\DALAbstraction.pdb
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\bin\Debug\DALAbstraction.dll.config
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\bin\Debug\Entidades.pdb
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\bin\Debug\Entidades.dll.config
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\obj\Debug\DALTriplosInterfaces.csprojAssemblyReference.cache
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\obj\Debug\DALTriplosInterfaces.csproj.CopyComplete
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\obj\Debug\DALTriplosInterfaces.dll
+C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALTriplosInterfaces\obj\Debug\DALTriplosInterfaces.pdb
