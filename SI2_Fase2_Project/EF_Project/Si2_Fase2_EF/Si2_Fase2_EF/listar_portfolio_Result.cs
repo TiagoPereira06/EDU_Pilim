@@ -13,8 +13,9 @@ namespace Si2_Fase2_EF
     
     public partial class listar_portfolio_Result
     {
-        public string ISIN { get; set; }
         public Nullable<decimal> ValorAtual { get; set; }
-        public Nullable<decimal> PercentagemVariacaoDiaria { get; set; }
+        public string isdn { get; set; }
+        public Nullable<double> quantidade { get; set; }
+        public Nullable<decimal> PercentagemVariacao { get; set; }
     }
 }

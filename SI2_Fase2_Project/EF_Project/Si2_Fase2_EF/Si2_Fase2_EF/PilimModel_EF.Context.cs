@@ -40,13 +40,13 @@ namespace Si2_Fase2_EF
         public virtual DbSet<resumo_portfolios> resumo_portfolios { get; set; }
     
         [DbFunction("PilimEntities", "listar_portfolio")]
-        public virtual IQueryable<listar_portfolio_Result> listar_portfolio(string nameP)
+        public virtual IQueryable<listar_portfolio_Result> listar_portfolio(string nomeP)
         {
-            var namePParameter = nameP != null ?
-                new ObjectParameter("NameP", nameP) :
-                new ObjectParameter("NameP", typeof(string));
+            var nomePParameter = nomeP != null ?
+                new ObjectParameter("nomeP", nomeP) :
+                new ObjectParameter("nomeP", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<listar_portfolio_Result>("[PilimEntities].[listar_portfolio](@NameP)", namePParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<listar_portfolio_Result>("[PilimEntities].[listar_portfolio](@nomeP)", nomePParameter);
         }
     
         public virtual int p_actualizaValorDiario()

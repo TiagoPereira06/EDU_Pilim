@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PilimModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PilimModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cliente">
           <Key>
             <PropertyRef Name="CC" />
@@ -211,13 +211,14 @@ warning 6002: The table/view 'TL51N_11.dbo.resumo_portfolios' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Function Name="listar_portfolio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="NameP" Type="varchar" Mode="In" />
+          <Parameter Name="nomeP" Type="varchar" Mode="In" />
           <ReturnType>
             <CollectionType>
               <RowType>
-                <Property Name="ISIN" Type="varchar" MaxLength="12" Nullable="false" />
+                <Property Name="isdn" Type="varchar" MaxLength="12" />
+                <Property Name="quantidade" Type="float" />
                 <Property Name="ValorAtual" Type="money" />
-                <Property Name="PercentagemVariacaoDiaria" Type="decimal" Precision="5" Scale="2" />
+                <Property Name="PercentagemVariacao" Type="money" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -278,15 +279,15 @@ warning 6002: The table/view 'TL51N_11.dbo.resumo_portfolios' does not have a pr
             <End Role="Valores_Mercado" EntitySet="Valores_Mercado" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PilimModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <ComplexType Name="listar_portfolio_Result">
-          <Property Name="ISIN" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ValorAtual" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="PercentagemVariacaoDiaria" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="ValorAtual" Type="Decimal" Precision="19" Scale="4" Nullable="true" />
+          <Property Type="String" Name="isdn" Nullable="true" MaxLength="12" />
+          <Property Type="Double" Name="quantidade" Nullable="true" />
+          <Property Type="Decimal" Name="PercentagemVariacao" Nullable="true" Precision="19" Scale="4" />
         </ComplexType>
         <EntityType Name="Cliente">
           <Key>
@@ -552,7 +553,7 @@ warning 6002: The table/view 'TL51N_11.dbo.resumo_portfolios' does not have a pr
             <End Role="Valores_Mercado" EntitySet="Valores_Mercado" />
           </AssociationSet>
           <FunctionImport Name="listar_portfolio" IsComposable="true" ReturnType="Collection(PilimModel.listar_portfolio_Result)">
-            <Parameter Name="NameP" Mode="In" Type="String" />
+          <Parameter Name="nomeP" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="p_actualizaValorDiario" />
         </EntityContainer>
@@ -679,9 +680,10 @@ warning 6002: The table/view 'TL51N_11.dbo.resumo_portfolios' does not have a pr
           <FunctionImportMapping FunctionName="PilimModel.Store.listar_portfolio" FunctionImportName="listar_portfolio">
             <ResultMapping>
               <ComplexTypeMapping TypeName="PilimModel.listar_portfolio_Result">
-                <ScalarProperty Name="ISIN" ColumnName="ISIN" />
                 <ScalarProperty Name="ValorAtual" ColumnName="ValorAtual" />
-                <ScalarProperty Name="PercentagemVariacaoDiaria" ColumnName="PercentagemVariacaoDiaria" />
+                <ScalarProperty Name="isdn" ColumnName="isdn" />
+                <ScalarProperty Name="quantidade" ColumnName="quantidade" />
+                <ScalarProperty Name="PercentagemVariacao" ColumnName="PercentagemVariacao" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

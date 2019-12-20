@@ -23,12 +23,5 @@ namespace Si2_Fase2_EF
         public Nullable<System.DateTime> HoraFecho { get; set; }
     
         public virtual Instrumento_Financeiro Instrumento_Financeiro { get; set; }
-
-        public override string ToString()
-        {
-            return "ISIN = " + ISIN + ", Dia = " + Dia + ", " + "Valor Abertura = " + ValorAbertura + "€, "
-                + "Valor Fecho = " + ValorFecho + "€, " + "Valor Máximo = " + ValorMaximo + "€, "
-                + "Valor Minimo = " + ValorMinimo + "€, Hora de Fecho = " + HoraFecho.ToString();
-        }
     }
 }
