@@ -1,6 +1,0 @@
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\Entidades\bin\Debug\Entidades.dll.config
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\Entidades\bin\Debug\Entidades.dll
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\Entidades\bin\Debug\Entidades.pdb
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\Entidades\obj\Debug\Entidades.dll
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\Entidades\obj\Debug\Entidades.pdb
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\Entidades\obj\Debug\Entidades.csprojAssemblyReference.cache

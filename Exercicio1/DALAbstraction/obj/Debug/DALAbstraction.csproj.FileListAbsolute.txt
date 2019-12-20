@@ -1,6 +1,0 @@
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALAbstraction\bin\Debug\DALAbstraction.dll.config
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALAbstraction\bin\Debug\DALAbstraction.dll
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALAbstraction\bin\Debug\DALAbstraction.pdb
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALAbstraction\obj\Debug\DALAbstraction.dll
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALAbstraction\obj\Debug\DALAbstraction.pdb
-C:\Users\pedro\OneDrive\Ambiente de Trabalho\SI2-Parte2\SI2-Pilim\Exercicio1\DALAbstraction\obj\Debug\DALAbstraction.csprojAssemblyReference.cache
