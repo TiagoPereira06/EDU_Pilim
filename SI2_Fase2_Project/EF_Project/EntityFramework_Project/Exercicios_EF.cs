@@ -5,22 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 namespace Si2_Fase2_EF
 {
-    class Program
+    public class Exercicios_EF
     {
-        static void Main(string[] args)
-        {
-
-            //ExercicioF("FR0004548873"); //Aceder procedimento p_actualizaValorDiario
-            //ExercicioG("FR0004548873"); //CalcularMedia6Meses Instrumento
-            //ExercicioH("FR0004548873"); //Actualizar dados instrumento
-            //ExercicioI("Description7");
-            //ExercicioJ("125236521474", "FR0004548873", 200);
-            ExercicioK("Description7");
-            Console.ReadLine();
-            
-        }
-
-        private static void ExercicioF(String isin)
+        public static void ExercicioF(String isin)
         {
             Registo reg;
             var triplo = new Triplos()
@@ -47,18 +34,21 @@ namespace Si2_Fase2_EF
             }
         }
 
-        private static void ExercicioG(string instrumentoIsin)
+        public static void ExercicioG(string isin)
         {
-            throw new NotImplementedException();
+            using (var ctx = new PilimEntities())
+            {
+
+            }
         }
-        private static void ExercicioH(string isin)
+        public static void ExercicioH(string isin)
         {
             Instrumento_Financeiro inst;
             using (var ctx = new PilimEntities())
             {
                 Console.WriteLine("Instrumento Antes do Procedimento:");
                 inst = ctx.Instrumento_Financeiro.Find(isin);
-                if (inst != null) Console.WriteLine("Valor Actual do Instrumento<" + isin + "> :" + inst.ValorAtual);
+                if (inst != null) Console.WriteLine("Valor Actual do Instrumento<{0}> : {1}", isin, inst.ValorAtual);
                 var novoTriplo = new Triplos()
                 {
                     Identificacao = isin,
@@ -76,11 +66,11 @@ namespace Si2_Fase2_EF
             {
                 Console.WriteLine("Instrumento Depois do Procedimento:");
                 inst = ctx.Instrumento_Financeiro.Find(isin);
-                if (inst != null) Console.WriteLine("Valor Actual do Instrumento<" + isin + "> :" + inst.ValorAtual);
+                if (inst != null) Console.WriteLine("Valor Actual do Instrumento<{0}> : {1}", isin,inst.ValorAtual);
             }
 
         }
-        private static void ExercicioI(string nomePort)
+        public static void ExercicioI(string nomePort)
         {
             Cliente cliente = new Cliente()
             {
@@ -120,24 +110,24 @@ namespace Si2_Fase2_EF
                 }
             }
         }
-        private static void ExercicioJ(string cc, string isin, double valor)
+        public static void ExercicioJ(string cc, string isin, double valor)
         {
             using (var ctx = new PilimEntities())
             {
                 Posicao pos = ctx.Posicao.Find(isin, cc);
                 
                 Console.WriteLine("Quantidade sobre a posicao com: ");
-                Console.WriteLine("\n\tInstrumento: " + isin + "\n\tCC: " + cc +"\n\tQuantidade: " + pos.Quantidade);
+                Console.WriteLine("\n\tInstrumento: {0}\n\tCC: {1}\n\tQuantidade: {2}", isin, cc, pos.Quantidade);
                 
                 pos.Quantidade += valor;
                 ctx.SaveChanges();
                 
                 Console.WriteLine("Nova quantidade sobre a posicao com: ");
-                Console.WriteLine("\n\tInstrumento: " + isin + "\n\tCC: " + cc + "\n\tQuantidade: " + pos.Quantidade);
+                Console.WriteLine("\n\tInstrumento: {0}\n\tCC: {1}\n\tQuantidade: {2}", isin, cc, pos.Quantidade);
             }
         }
 
-        private static void ExercicioK(string nomePort)
+        public static void ExercicioK(string nomePort)
         {
             using (var ctx = new PilimEntities())
             {
