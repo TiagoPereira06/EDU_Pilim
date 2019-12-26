@@ -64,7 +64,16 @@ namespace Si2_Fase2_EF
             using (PilimEntities ctx = new PilimEntities())
             {
                 CheckISINExists(ctx, isin);
-                
+                /*
+                using (var ctx = new PilimEntities()) {
+                    var i = new Instrumento_Financeiro();
+                    i.ISIN = "1";
+                    var query = ctx.calcAvg6Meses(i.ISIN, new DateTime());
+                    var df = ctx.DADOS_INSTRUMENTO
+                        .Where(s => s.ISIN == 1)
+                        .FirstOrDefault<DADOS_INSTRUMENTO>();
+                    Console.WriteLine(df.AVG_6MESES);
+                }*/
                 //....TODO
             }
            
@@ -187,6 +196,111 @@ namespace Si2_Fase2_EF
             }
         }
 
+        public static void Exercicio1B_EF_Create(string codigo, string nome, string desc, string isin, DateTime date, int val_abert)
+        {
+            Mercado_Financeiro mercado = new Mercado_Financeiro()
+            {
+                Codigo = codigo,    //"E9BT",
+                Nome = nome,        //"Pilim4Everyone",
+                Descricao = desc,   //"Contabilidade e Finanças"
+            };
+          
+            using (var ctx = new PilimEntities())
+            {
+                try {
+                    ctx.Mercado_Financeiro.Add(mercado);
+                    ctx.SaveChanges();
+                    Console.WriteLine("Mercado criado sem registos.");
+                } catch(SqlException ex) {
+                    throw new CustomSqlException("Erro! Mercado criado ja existe. ", ex);
+                }
+                ShowValoresMercado(ctx);
+            }
+
+            Registo registo = new Registo()
+            {
+                ISIN = isin,
+                Dia = date,
+                ValorAbertura = val_abert
+            };
+
+            using (var ctx = new PilimEntities())
+            {
+                CheckISINExists(ctx, isin);
+                try {
+                    ctx.Registo.Add(registo);
+                    ctx.SaveChanges();
+                    Console.WriteLine("Valores do mercado indicado criados.");
+                } catch(SqlException ex) {
+                    throw new CustomSqlException("Erro! Registo inserido ja existe. ", ex);
+                }
+                ShowValoresMercado(ctx);
+            }
+        }
+        public static void Exercicio1B_EF_Update(string isin, DateTime date, int val)
+        {
+            using (var ctx = new PilimEntities())
+            {
+                Registo registo;
+                try {
+                    registo = ctx.Registo.Find(isin, date);
+                    ShowValoresMercado(ctx);
+                } catch(SqlException ex) {
+                    throw new CustomSqlException("Erro! Registo especificado nao existe.", ex);
+                }
+                try {
+                    registo.ValorAbertura = val;
+                    ctx.SaveChanges();
+                    Console.WriteLine("Valor de mercado atualizado.");
+                    ShowValoresMercado(ctx);
+                } catch (SqlException ex) {
+                    throw new CustomSqlException("Erro! Nao foi possivel atualizar o valor do registo indicado. ", ex);
+                }
+            }
+        }
+        public static void Exercicio1B_EF_Remove(string isin, DateTime date)
+        {
+            using (var ctx = new PilimEntities())
+            {
+                Registo registo;
+                try {
+                    registo = ctx.Registo.Find(isin, date);
+                } catch (SqlException ex) {
+                    throw new CustomSqlException("Erro! Registo indicado nao existe. ", ex);
+                }
+                try {
+                    ctx.Registo.Attach(registo);
+                    ctx.Registo.Remove(registo);
+                    ctx.SaveChanges();
+                    Console.WriteLine("Registo do valor de mercado removido. ");
+                } catch (SqlException ex) {
+                    throw new CustomSqlException("Erro! Nao foi possivel remover o registo indicado. ", ex);
+                }
+            }
+        }
+
+        public static void Exercicio1C_EF(string nomePort) //Remover portfolio sem stored procedures
+        {
+            using (var ctx = new PilimEntities())
+            {
+                Posicao posicao = null;
+                try {
+                    posicao = ctx.Posicao.Find(nomePort);
+                } catch(SqlException ex) {
+                    throw new CustomSqlException("Erro! Portfolio indicado nao existe." , ex);
+                }
+                try {
+                    ctx.Posicao.Attach(posicao);
+                    ctx.Posicao.Remove(posicao);
+                    ctx.SaveChanges();
+                    ShowPortfolios(ctx);
+                } catch(SqlException ex)
+                {
+                    throw new CustomSqlException("Erro! Nao foi possivel remover o portfolio.", ex);
+                }
+            }
+        }
+
         private static void ShowPortfolios(PilimEntities ctx)
         {
             List<Cliente> clientes;
@@ -198,6 +312,22 @@ namespace Si2_Fase2_EF
             Console.WriteLine("Portefólios existentes:");
             foreach (Cliente c in clientes) {
                 Console.WriteLine(c.NomePortfolio);
+            }
+        }
+
+        private static void ShowValoresMercado(PilimEntities ctx)
+        {
+            try {
+                List<Valores_Mercado> mercados = ctx.Valores_Mercado.ToList();
+                foreach (Valores_Mercado m in mercados)
+                {
+                    Console.WriteLine("Mercado<{0}> : {1}\nDescricao: {2}\nDia: {3}\n" +
+                        "Valor Abertura: {4}\nValor Indice: {5}\nVariação Diaria: {6}",
+                        m.Codigo, m.Mercado_Financeiro.Nome, m.Mercado_Financeiro.Descricao, 
+                        m.Dia, m.ValorAbertura, m.ValorIndice, m.VariacaoDiaria);
+                }
+            } catch (SqlException ex) {
+                throw new CustomSqlException("Erro ao listar os valores de mercado.", ex);
             }
         }
 
