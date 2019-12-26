@@ -58,7 +58,7 @@ namespace Si2_Fase2_EF
                     case ConsoleKey.C:
                         Console.Write("\nNome do Portfolio: "); 
                         string port3 = Console.ReadLine();
-                        Exercicios_EF.Exercicio1C_EF(port3);
+                        Exercicios_EF.Exercicio1C(port3);
                         break;
                     case ConsoleKey.Escape: 
                         quit = true; 
@@ -101,18 +101,18 @@ namespace Si2_Fase2_EF
                     Console.Write("ISIN existente: "); string isin = Console.ReadLine();
                     Console.Write("Data (yyyy-MM-dd HH:mm): "); DateTime dtS = DateTimeInfo(Console.ReadLine());
                     Console.Write("Valor de Abertura: "); int val = Int32.Parse(Console.ReadLine());
-                    Exercicios_EF.Exercicio1B_EF_Create(codigo, nome, desc, isin, dtS, val);
+                    Exercicios_EF.Exercicio1B_Create(codigo, nome, desc, isin, dtS, val);
                     break;
                 case ConsoleKey.B:
                     Console.Write("ISIN: "); string isin2 = Console.ReadLine();
                     Console.Write("Data (yyyy-MM-dd HH:mm): "); DateTime dtS2 = DateTimeInfo(Console.ReadLine());
                     Console.Write("Valor de Abertura: "); int val2 = Int32.Parse(Console.ReadLine());
-                    Exercicios_EF.Exercicio1B_EF_Update(isin2, dtS2, val2);
+                    Exercicios_EF.Exercicio1B_Update(isin2, dtS2, val2);
                     break;
                 case ConsoleKey.C:
                     Console.Write("ISIN: "); string isin3 = Console.ReadLine();
                     Console.Write("Data (yyyy-MM-dd HH:mm): "); DateTime dtS3 = DateTimeInfo(Console.ReadLine());
-                    Exercicios_EF.Exercicio1B_EF_Remove(isin3, dtS3);
+                    Exercicios_EF.Exercicio1B_Remove(isin3, dtS3);
                     break;
                 default: break;
             }

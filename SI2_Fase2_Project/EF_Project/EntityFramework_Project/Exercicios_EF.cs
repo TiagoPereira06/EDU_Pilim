@@ -116,7 +116,7 @@ namespace Si2_Fase2_EF
                 Console.WriteLine("Valor Actual do Instrumento<{0}> : {1}", isin, inst.ValorAtual);
             }
         }
-        public static void ExercicioI(string nomePort, string isin, string cc, string nif, string nomeC, int valTot, int quant) {
+        public static void ExercicioI(string nomePort, string cc, string nif, string nomeC, int valTot) {
             Cliente cliente = new Cliente() {
                 CC = cc,                        //"123824538674",
                 NIF = nif,                      //"156368578",
@@ -124,19 +124,13 @@ namespace Si2_Fase2_EF
                 NomePortfolio = nomePort,
                 ValorTotalPortfolio = valTot    //5000
             };
-            Posicao posicao = new Posicao() {
-                ISIN = isin,        //"FR0013340973",
-                CC = cc,            //"123824538674",
-                Quantidade = quant  //120,
-            };
-            
+           
             using (PilimEntities ctx = new PilimEntities())
             {
                 ShowPortfolios(ctx);
                 
                 try {
                     ctx.Cliente.Add(cliente);
-                    ctx.Posicao.Add(posicao);
                     ctx.SaveChanges();
                     Console.WriteLine("Novo portefolio adicionado");
                 } catch(SqlException ex) {
@@ -196,7 +190,7 @@ namespace Si2_Fase2_EF
             }
         }
 
-        public static void Exercicio1B_EF_Create(string codigo, string nome, string desc, string isin, DateTime date, int val_abert)
+        public static void Exercicio1B_Create(string codigo, string nome, string desc, string isin, DateTime date, int val_abert)
         {
             Mercado_Financeiro mercado = new Mercado_Financeiro()
             {
@@ -237,7 +231,7 @@ namespace Si2_Fase2_EF
                 ShowValoresMercado(ctx);
             }
         }
-        public static void Exercicio1B_EF_Update(string isin, DateTime date, int val)
+        public static void Exercicio1B_Update(string isin, DateTime date, int val)
         {
             using (var ctx = new PilimEntities())
             {
@@ -258,7 +252,7 @@ namespace Si2_Fase2_EF
                 }
             }
         }
-        public static void Exercicio1B_EF_Remove(string isin, DateTime date)
+        public static void Exercicio1B_Remove(string isin, DateTime date)
         {
             using (var ctx = new PilimEntities())
             {
@@ -279,7 +273,7 @@ namespace Si2_Fase2_EF
             }
         }
 
-        public static void Exercicio1C_EF(string nomePort) //Remover portfolio sem stored procedures
+        public static void Exercicio1C(string nomePort) //Remover portfolio sem stored procedures
         {
             using (var ctx = new PilimEntities())
             {
