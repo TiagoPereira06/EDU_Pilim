@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\WilsonRC\Desktop\SI2-Pilim\SI2_Fase2_Project\EF_Project\Si2_Fase2_EF\Si2_Fase2_EF\PilimModel_EF.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\WilsonRC\Desktop\SI2-Pilim\SI2_Fase2_Project\EF_Project\EntityFramework_Project\PilimModel_EF.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

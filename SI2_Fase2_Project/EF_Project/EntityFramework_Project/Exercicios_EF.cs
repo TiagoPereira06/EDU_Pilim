@@ -1,150 +1,212 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 namespace Si2_Fase2_EF
 {
-    public class Exercicios_EF
+    public class CustomSqlException : Exception
     {
-        public static void ExercicioF(String isin)
+        public CustomSqlException() { }
+        public CustomSqlException(string message, SqlException innerException) : base(message, innerException) { }
+    }
+
+    public class Exercicios_EF {
+        public static void ExercicioF(String isin, decimal valor, DateTime data) 
         {
-            Registo reg;
-            var triplo = new Triplos()
-            {
+            Registo registo;
+            Triplos triplo = new Triplos() {
                 Identificacao = isin,
-                Dia = new DateTime(2019, 12, 28, 14, 6, 0),
-                Valor = 600,
+                Dia = data,
+                Valor = valor,
                 Observado = false
             };
-            using (var ctx = new PilimEntities())
+            
+            using (PilimEntities ctx = new PilimEntities())
             {
-                ctx.Triplos.Add(triplo);
-                ctx.SaveChanges();
-                reg = ctx.Registo.Find(triplo.Identificacao, new DateTime(2019, 12, 28));
-                if (reg != null) Console.WriteLine(reg.ToString());
-                ctx.p_actualizaValorDiario();
-                ctx.SaveChanges();
+                CheckISINExists(ctx, isin);
+                try {
+                    ctx.Triplos.Add(triplo);
+                    ctx.SaveChanges();
+                } catch(SqlException ex) {
+                    throw new CustomSqlException("Erro! Triplo criado ja existe. ", ex);
+                }
+                try {
+                    registo = ctx.Registo.Find(triplo.Identificacao, data);
+                } catch(SqlException ex) {
+                    throw new CustomSqlException("Erro! Registo procurado nao existe. ", ex);
+                }
+                Console.WriteLine(registo.ToString());
+                try {
+                    ctx.p_actualizaValorDiario();
+                    ctx.SaveChanges();
+                    Console.WriteLine("Valor diario atualizado.");
+                } catch (SqlException ex) {
+                    throw new CustomSqlException("Erro ao atualizar valor diario ", ex);
+                }
+                
             }
-            using (var ctx = new PilimEntities())
+
+            using (PilimEntities ctx = new PilimEntities())
             {
-                reg = ctx.Registo.Find(triplo.Identificacao, new DateTime(2019, 12, 28));
-                Console.WriteLine("Procedure called");
-                if (reg != null) Console.WriteLine(reg.ToString());
+                try {
+                    registo = ctx.Registo.Find(triplo.Identificacao, data);
+                }
+                catch (SqlException ex) {
+                    throw new CustomSqlException("Erro! Registo criado ja existe. ", ex);
+                }
+                Console.WriteLine(registo.ToString());
             }
         }
 
         public static void ExercicioG(string isin)
         {
-            using (var ctx = new PilimEntities())
+            using (PilimEntities ctx = new PilimEntities())
             {
-
+                CheckISINExists(ctx, isin);
+                
+                //....TODO
             }
+           
         }
-        public static void ExercicioH(string isin)
+        public static void ExercicioH(string isin, DateTime data, decimal valor)
         {
-            Instrumento_Financeiro inst;
-            using (var ctx = new PilimEntities())
+            Instrumento_Financeiro inst = null;
+           
+            using (PilimEntities ctx = new PilimEntities())
             {
-                Console.WriteLine("Instrumento Antes do Procedimento:");
-                inst = ctx.Instrumento_Financeiro.Find(isin);
-                if (inst != null) Console.WriteLine("Valor Actual do Instrumento<{0}> : {1}", isin, inst.ValorAtual);
-                var novoTriplo = new Triplos()
+                CheckISINExists(ctx, isin);
+                Console.WriteLine("Valor Actual do Instrumento<{0}> : {1}", isin, inst.ValorAtual);
+                
+                Triplos novoTriplo = new Triplos()
                 {
                     Identificacao = isin,
-                    Dia = new DateTime(2019, 12, 28, 8, 0, 0),
-                    Valor = 540,
+                    Dia = data,
+                    Valor = valor,
                     Observado = false
                 };
-                ctx.Triplos.Add(novoTriplo);
-                ctx.SaveChanges();
-                Console.WriteLine("Criação de triplo");
-                var rows = ctx.p_actualizaValorDiario();
-                ctx.SaveChanges();
+                try {
+                    ctx.Triplos.Add(novoTriplo);
+                    ctx.SaveChanges();
+                    Console.WriteLine("Novo triplo criado.");
+                } catch(SqlException ex) {
+                    throw new CustomSqlException("Erro! Triplo criado ja existe. ", ex);
+                }
+                try {
+                    ctx.p_actualizaValorDiario();
+                    ctx.SaveChanges();
+                } catch(SqlException ex) {
+                    throw new CustomSqlException("Erro ao atualizar o valor diario.", ex);
+                } 
             }
-            using (var ctx = new PilimEntities())
+            
+            using (PilimEntities ctx = new PilimEntities()) 
             {
                 Console.WriteLine("Instrumento Depois do Procedimento:");
-                inst = ctx.Instrumento_Financeiro.Find(isin);
-                if (inst != null) Console.WriteLine("Valor Actual do Instrumento<{0}> : {1}", isin,inst.ValorAtual);
+                inst = CheckISINExists(ctx, isin); 
+                Console.WriteLine("Valor Actual do Instrumento<{0}> : {1}", isin, inst.ValorAtual);
+            }
+        }
+        public static void ExercicioI(string nomePort, string isin, string cc, string nif, string nomeC, int valTot, int quant) {
+            Cliente cliente = new Cliente() {
+                CC = cc,                        //"123824538674",
+                NIF = nif,                      //"156368578",
+                NomeCliente = nomeC,            //"Eusebio Ferreira",
+                NomePortfolio = nomePort,
+                ValorTotalPortfolio = valTot    //5000
+            };
+            Posicao posicao = new Posicao() {
+                ISIN = isin,        //"FR0013340973",
+                CC = cc,            //"123824538674",
+                Quantidade = quant  //120,
+            };
+            
+            using (PilimEntities ctx = new PilimEntities())
+            {
+                ShowPortfolios(ctx);
+                
+                try {
+                    ctx.Cliente.Add(cliente);
+                    ctx.Posicao.Add(posicao);
+                    ctx.SaveChanges();
+                    Console.WriteLine("Novo portefolio adicionado");
+                } catch(SqlException ex) {
+                    throw new CustomSqlException("Erro! Portefolio inserido ja existe. ", ex);
+                }
             }
 
-        }
-        public static void ExercicioI(string nomePort)
-        {
-            Cliente cliente = new Cliente()
+            using (PilimEntities ctx = new PilimEntities())
             {
-                CC = "123824538674",
-                NIF = "156368578",
-                NomeCliente = "Eusebio Ferreira",
-                NomePortfolio = nomePort,
-                ValorTotalPortfolio = 5000
-            };
-            Posicao posicao = new Posicao()
-            {
-                ISIN = "FR0013340973",
-                CC = "123824538674",
-                Quantidade = 120,
-            };
-            List<Cliente> clientes;
-            using (var ctx = new PilimEntities())
-            {
-                clientes = ctx.Cliente.ToList();
-                Console.WriteLine("Portefólios existentes:");
-                foreach (Cliente c in clientes)
-                {
-                    Console.WriteLine(c.NomePortfolio);
-                }
-                ctx.Cliente.Add(cliente);
-                ctx.Posicao.Add(posicao);
-                ctx.SaveChanges();
-            }
-            Console.WriteLine("Novo portefolio adicionado");
-            using (var ctx = new PilimEntities())
-            {
-                clientes = ctx.Cliente.ToList();
-                Console.WriteLine("Portefólios existentes:");
-                foreach (Cliente c in clientes)
-                {
-                    Console.WriteLine(c.NomePortfolio);
-                }
+                ShowPortfolios(ctx);
             }
         }
         public static void ExercicioJ(string cc, string isin, double valor)
         {
-            using (var ctx = new PilimEntities())
+            using (PilimEntities ctx = new PilimEntities())
             {
-                Posicao pos = ctx.Posicao.Find(isin, cc);
-                
+                Posicao posicao = null;
+                try {
+                    posicao = ctx.Posicao.Find(isin, cc);
+                } catch(SqlException ex) {
+                    throw new CustomSqlException("Erro! Posicao procurada inexistente. ", ex);
+                }
                 Console.WriteLine("Quantidade sobre a posicao com: ");
-                Console.WriteLine("\n\tInstrumento: {0}\n\tCC: {1}\n\tQuantidade: {2}", isin, cc, pos.Quantidade);
-                
-                pos.Quantidade += valor;
-                ctx.SaveChanges();
-                
-                Console.WriteLine("Nova quantidade sobre a posicao com: ");
-                Console.WriteLine("\n\tInstrumento: {0}\n\tCC: {1}\n\tQuantidade: {2}", isin, cc, pos.Quantidade);
-            }
+                Console.WriteLine("\n\tInstrumento: {0}\n\tCC: {1}\n\tQuantidade: {2}", isin, cc, posicao.Quantidade);
+                try {
+                    posicao.Quantidade += valor;
+                    ctx.SaveChanges();
+                    Console.WriteLine("Nova quantidade sobre a posicao com: ");
+                    Console.WriteLine("\n\tInstrumento: {0}\n\tCC: {1}\n\tQuantidade: {2}", isin, cc, posicao.Quantidade);
+                } catch(SqlException ex) {
+                    throw new CustomSqlException("Erro ao adicionar quantidade a posicao. ", ex);
+                }
+            }   
         }
 
         public static void ExercicioK(string nomePort)
         {
-            using (var ctx = new PilimEntities())
+            using (PilimEntities ctx = new PilimEntities()) 
             {
-                var portfolio = ctx.listar_portfolio(nomePort)
-                     .Select(port => new
-                     {
-                         port.isdn,
-                         port.quantidade,
-                         port.ValorAtual,
-                         port.PercentagemVariacao
-                     });
-                Console.WriteLine("Detalhes do portfolio " + nomePort);
-                foreach(var p in portfolio)
-                {
-                    Console.WriteLine("ISDN: {0}\nQuantidade: {1}\nValor Atual: {2}\nPercentagem de Variacao: {3}",
-                        p.isdn, p.quantidade, p.ValorAtual, p.PercentagemVariacao);
+                try {
+                    var portfolio = ctx.listar_portfolio(nomePort)
+                        .Select(port => new {
+                            port.isdn,
+                            port.quantidade,
+                            port.ValorAtual,
+                            port.PercentagemVariacao
+                        });
+                    Console.WriteLine("Detalhes do portfolio " + nomePort);
+                    foreach (var p in portfolio)
+                    {
+                        Console.WriteLine("ISDN: {0}\nQuantidade: {1}\nValor Atual: {2}\nPercentagem de Variacao: {3}",
+                            p.isdn, p.quantidade, p.ValorAtual, p.PercentagemVariacao);
+                    }
+                } catch(SqlException ex) {
+                    throw new CustomSqlException("Erro! Portfolio nao encontrado. ", ex);
                 }
+            }
+        }
+
+        private static void ShowPortfolios(PilimEntities ctx)
+        {
+            List<Cliente> clientes;
+            try {
+                clientes = ctx.Cliente.ToList();
+            } catch (SqlException ex) {
+                throw new CustomSqlException("Erro! A procura da lista de clientes falhou. ", ex);
+            }
+            Console.WriteLine("Portefólios existentes:");
+            foreach (Cliente c in clientes) {
+                Console.WriteLine(c.NomePortfolio);
+            }
+        }
+
+        private static Instrumento_Financeiro CheckISINExists(PilimEntities ctx, string isin)
+        {
+            try {
+                return ctx.Instrumento_Financeiro.Find(isin);
+            } catch(SqlException ex) {
+                throw new CustomSqlException("Erro! O instrumento indicado nao existe.", ex);
             }
         }
     }

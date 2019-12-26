@@ -614,11 +614,6 @@ warning 6002: The table/view 'TL51N_11.dbo.resumo_portfolios' does not have a pr
                 <ScalarProperty Name="Media6Meses" ColumnName="Media6Meses" />
               </MappingFragment>
             </EntityTypeMapping>
-            <EntityTypeMapping TypeName="PilimModel.Instrumento_Financeiro">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="PilimModel.Store.Media6Meses" />
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Mercado_Financeiro">
             <EntityTypeMapping TypeName="PilimModel.Mercado_Financeiro">
