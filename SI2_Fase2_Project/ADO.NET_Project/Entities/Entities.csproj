@@ -50,6 +50,8 @@
     <Compile Include="Cliente.cs" />
     <Compile Include="Instrumento.cs" />
     <Compile Include="Mercado.cs" />
+    <Compile Include="Posicao.cs" />
+    <Compile Include="PosicaoKey.cs" />
     <Compile Include="Registo.cs" />
     <Compile Include="RegistoKey.cs" />
     <Compile Include="Triplo.cs" />

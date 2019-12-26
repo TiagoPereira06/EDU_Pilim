@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D1985DDE-99C3-4D26-86B1-E9784783C9F2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>SpecificDAL</RootNamespace>
-    <AssemblyName>SpecificDAL</AssemblyName>
+    <RootNamespace>DAL_Specific</RootNamespace>
+    <AssemblyName>DAL_Specific</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -52,6 +52,7 @@
     <Compile Include="MapperCliente.cs" />
     <Compile Include="MapperInstrumento.cs" />
     <Compile Include="MapperMercado.cs" />
+    <Compile Include="MapperPosicao.cs" />
     <Compile Include="MapperRegisto.cs" />
     <Compile Include="MapperTriplo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

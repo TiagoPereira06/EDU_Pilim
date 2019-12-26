@@ -1,4 +1,4 @@
-﻿using DAL_Interfaces;
+﻿using DALInterfaces;
 using Entities;
 using System;
 using System.Configuration;
@@ -7,7 +7,7 @@ using System.Transactions;
 
 namespace DAL_Specific
 {
-    class MapperCliente : IMapperCliente
+    public class MapperCliente : IMapperCliente
     {
         private string cs;
 
@@ -50,7 +50,40 @@ namespace DAL_Specific
 
         public Cliente Read(string id)
         {
-            throw new NotImplementedException();
+            Cliente cliente = null;
+
+            using (var ts = new TransactionScope(TransactionScopeOption.Required))
+            {
+                SqlCommand command = new SqlCommand
+                {
+                    CommandText = "SELECT * FROM Cliente AS C WHERE C.CC = @cc;"
+                };
+                SqlParameter cc = new SqlParameter("@cc", id);
+
+                command.Parameters.Add(cc);
+
+                using (var con = new SqlConnection(cs))
+                {
+                    command.Connection = con;
+
+                    con.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        cliente = new Cliente()
+                        {
+                            CC = reader.GetString(0),
+                            NIF = reader.GetString(1),
+                            NomeCliente = reader.GetString(2),
+                            NomePortfolio = reader.GetString(3),
+                            ValorTotalPortfolio = (decimal) reader.GetSqlMoney(4)
+                        };
+                    }
+                    reader.Close();
+                }
+                ts.Complete();
+            }
+            return cliente;
         }
 
         public void Update(Cliente entity)

@@ -1,4 +1,4 @@
-﻿using DAL_Interfaces;
+﻿using DALInterfaces;
 using Entities;
 using System;
 using System.Configuration;
@@ -7,7 +7,7 @@ using System.Transactions;
 
 namespace DAL_Specific
 {
-    class MapperMercado : IMapperMercado
+    public class MapperMercado : IMapperMercado
     {
         private string cs;
 

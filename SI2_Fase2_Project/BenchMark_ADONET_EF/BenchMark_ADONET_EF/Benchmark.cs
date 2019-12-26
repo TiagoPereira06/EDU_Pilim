@@ -2,8 +2,8 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Toolchains.InProcess.Emit;
-using Si2_Fase2_EF;
-using SI2_Fase2;
+using Si2_Fase2_EF.sln;
+using SI2_Fase2.sln;
 using System;
 using System.Transactions;
 using System.Data.SqlClient;
