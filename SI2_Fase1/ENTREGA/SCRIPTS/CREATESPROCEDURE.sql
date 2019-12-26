@@ -1,3 +1,45 @@
+GO
+
+CREATE or alter PROCEDURE Media6Meses(@isin VARCHAR(12))
+AS
+BEGIN
+	
+	DECLARE @media MONEY
+	DECLARE @valor MONEY
+
+	DECLARE @today DATE
+	DECLARE @days INT
+
+
+	SET @days = 0
+	SET @media = 0
+	SET @today = convert(DATE, GETDATE())
+
+	DECLARE @cursor CURSOR
+	
+	SET @cursor = CURSOR FOR
+		SELECT R.ValorFecho FROM Registo AS R
+		WHERE R.ISIN = @isin AND R.Dia BETWEEN CONVERT(DATE, DATEADD(month, -6, @today)) AND @today
+
+	OPEN @cursor
+	FETCH NEXT FROM @cursor INTO @valor
+
+	WHILE @@FETCH_STATUS=0
+		BEGIN 
+			SET @days = @days + 1
+			SET @media = @media + @valor
+			FETCH NEXT FROM @cursor INTO @valor
+		END
+
+	CLOSE @cursor
+	DEALLOCATE @cursor
+
+	SET @media = @media / @days
+	
+	UPDATE Instrumento_Financeiro AS SET Media6Meses = @media WHERE ISIN = @isin
+END
+
+GO
 
 CREATE or alter PROCEDURE p_actualizaValorDiario
 AS
