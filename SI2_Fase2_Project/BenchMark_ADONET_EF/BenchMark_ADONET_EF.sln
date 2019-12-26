@@ -26,6 +26,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "..\ADO.NET_Proj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework_Project", "..\EF_Project\EntityFramework_Project\EntityFramework_Project.csproj", "{BE13AD06-7DFA-4D58-B1CA-BE9BC616C768}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AA22670B-38EB-43FC-9F26-14B02EB35C1D}"
+	ProjectSection(SolutionItems) = preProject
+		..\ADO.NET_Project\SI2_Fase2.sln = ..\ADO.NET_Project\SI2_Fase2.sln
+		..\EF_Project\Si2_Fase2_EF.sln = ..\EF_Project\Si2_Fase2_EF.sln
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -1,4 +1,4 @@
-﻿using DAL_Interfaces;
+﻿using DALInterfaces;
 using Entities;
 using System;
 using System.Configuration;
@@ -7,7 +7,7 @@ using System.Transactions;
 
 namespace DAL_Specific
 {
-    class MapperRegisto : IMapperRegisto
+    public class MapperRegisto : IMapperRegisto
     {
         private string cs;
 
@@ -55,7 +55,44 @@ namespace DAL_Specific
 
         public Registo Read(RegistoKey id)
         {
-            throw new NotImplementedException();
+            Registo res = null;
+
+            using (var ts = new TransactionScope(TransactionScopeOption.Required))
+            {
+                SqlCommand command = new SqlCommand
+                {
+                    CommandText = "SELECT * FROM Registo AS R WHERE R.ISIN = @isin AND R.Dia = @dia;"
+                };
+                SqlParameter isin = new SqlParameter("@isin", id.Isin);
+                SqlParameter dia = new SqlParameter("@dia", id.Dia.Date);
+
+                command.Parameters.Add(isin);
+                command.Parameters.Add(dia);
+
+                using (var con = new SqlConnection(cs))
+                {
+                    command.Connection = con;
+
+                    con.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        res = new Registo()
+                        {
+                            Isin = reader.GetString(0),
+                            Dia = reader.GetDateTime(1),
+                            ValorAbertura = (decimal)reader.GetSqlMoney(2),
+                            ValorFecho = (decimal)reader.GetSqlMoney(3),
+                            ValorMaximo = (decimal)reader.GetSqlMoney(4),
+                            ValorMinimo = (decimal)reader.GetSqlMoney(5), 
+                            HoraFecho = reader.GetSqlDateTime(6).Value
+                        };
+                    }
+                    reader.Close();
+                }
+                ts.Complete();
+            }
+            return res;
         }
 
         public void Update(Registo entity)

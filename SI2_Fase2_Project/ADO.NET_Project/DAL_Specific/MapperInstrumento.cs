@@ -1,4 +1,4 @@
-﻿using DAL_Interfaces;
+﻿using DALInterfaces;
 using Entities;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -6,7 +6,7 @@ using System.Transactions;
 
 namespace DAL_Specific
 {
-    class MapperInstrumento : IMapperInstrumento
+    public class MapperInstrumento : IMapperInstrumento
     {
         private string cs;
 
@@ -46,7 +46,51 @@ namespace DAL_Specific
 
         public Instrumento Read(string id)
         {
-            throw new System.NotImplementedException();
+            Instrumento inst = null;
+
+            using (var ts = new TransactionScope(TransactionScopeOption.Required))
+            {
+                SqlCommand command = new SqlCommand
+                {
+                    CommandText = "SELECT * FROM Instrumento_Financeiro AS I WHERE I.ISIN = @isin;"
+                };
+
+                SqlParameter isin = new SqlParameter("@isin", id);
+
+                command.Parameters.Add(isin);
+
+                using (var con = new SqlConnection(cs))
+                {
+                    command.Connection = con;
+
+                    con.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        inst = new Instrumento()
+                        {
+                                Isin = reader.GetString(0),
+
+                                CodigoMercado = reader.GetString(1),
+
+                                Descricao = reader.GetString(2),
+
+                                ValorAtual = (decimal) reader.GetSqlMoney(3),
+
+                                ValorVariacaoDiaria = (decimal) reader.GetSqlMoney(4),
+                                PercentagemVariacaoDiaria = (decimal) reader.GetSqlMoney(5),
+
+                                ValorVariacao6Meses = (decimal) reader.GetSqlMoney(6),
+                                PercentagemVariacao6Meses = (decimal) reader.GetSqlMoney(7),
+
+                                Media6Meses = (decimal) reader.GetSqlMoney(8)
+                        };
+                    }
+                    reader.Close();
+                }
+                ts.Complete();
+            }
+            return inst;
         }
 
         public void Update(Instrumento entity)

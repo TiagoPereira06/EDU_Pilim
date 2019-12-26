@@ -1,4 +1,4 @@
-﻿using DAL_Interfaces;
+﻿using DALInterfaces;
 using Entities;
 using System;
 using System.Configuration;
