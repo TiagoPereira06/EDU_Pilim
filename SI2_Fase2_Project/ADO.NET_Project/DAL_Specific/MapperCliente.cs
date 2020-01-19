@@ -43,9 +43,29 @@ namespace DAL_Specific
             }
         }
 
-        public void Delete(Cliente entity)
+        public void Delete(Cliente cliente)
         {
-            throw new NotImplementedException();
+            using (var ts = new TransactionScope(TransactionScopeOption.Required))
+            {
+                SqlCommand command = new SqlCommand
+                {
+                    CommandText = "DELETE FROM Cliente WHERE CC = @cc;"
+                };
+
+                SqlParameter cc = new SqlParameter("@cc", cliente.CC);
+                command.Parameters.Add(cc);
+
+                using (var con = new SqlConnection(cs))
+                {
+                    command.Connection = con;
+
+                    con.Open();
+
+                    command.ExecuteNonQuery();
+                }
+
+                ts.Complete();
+            }
         }
 
         public Cliente Read(string id)

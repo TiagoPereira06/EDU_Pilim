@@ -1,4 +1,4 @@
-CREATE VIEW resumo_portfolios AS	
+CREATE or alter VIEW resumo_portfolios AS	
 SELECT
 	NomeCliente,
 	NomePortfolio,
@@ -13,4 +13,3 @@ GROUP BY
 	NomeCliente,
 	NomePortfolio,
 	ValorTotalPortfolio;
-

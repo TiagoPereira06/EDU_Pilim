@@ -55,13 +55,10 @@ namespace DAL_Specific
             {
                 SqlCommand command = new SqlCommand
                 {
-                    CommandText = "SELECT * FROM Posicao AS P WHERE P.ISIN = @isin AND P.CC = @cc ;"//"SELECT * FROM Posicao AS P WHERE P.ISIN = @isin AND P.CC = @cc "
+                    CommandText = "SELECT * FROM Posicao AS P WHERE P.ISIN = @isin AND P.CC = @cc ;"
                 };
                 SqlParameter isin = new SqlParameter("@isin", key.Isin);
                 SqlParameter cc = new SqlParameter("@cc", key.CC);
-
-                string fds = key.Isin;
-                string crl = key.CC;
 
                 command.Parameters.Add(isin);
                 command.Parameters.Add(cc);

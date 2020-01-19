@@ -55,6 +55,7 @@
     <Compile Include="MapperPosicao.cs" />
     <Compile Include="MapperRegisto.cs" />
     <Compile Include="MapperTriplo.cs" />
+    <Compile Include="MapperValoresMercado.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -116,16 +116,10 @@ END
 
 GO
 
--- PERCENTAGE VARIANCE
--- (new - original)/((new + original)/2)*100
 
--- VARIANCE
--- (new-original)
-
-
-CREATE TRIGGER updateMercadoOnInsertRegisto -- É APENAS NECESSÁRIO NAS INSERÇÕES VISTO QUE O VALOR DE ABERTURA DE UM INSTRUMENTO NÃO É ATUALIZADO
+CREATE TRIGGER updateMercadoOnRegistoChanges
 ON Registo
-FOR INSERT 
+FOR INSERT, UPDATE
 AS
 BEGIN	
 
@@ -145,10 +139,10 @@ BEGIN
 	IF NOT EXISTS(SELECT * FROM #valoresMercado) -- não existe valores de mercado ainda
 		BEGIN
 		
-			SET @valorAberturaMercado = 0 -- caso não exista dia anterior o valor de Abertura é 0
+			SET @valorAberturaMercado = 0 -- caso não exista dia anterior(tabela sem registos) o valor de Abertura é 0
 			SELECT TOP 1 @valorAberturaMercado = ValorIndice FROM Valores_Mercado ORDER BY Dia DESC -- busca do último dia útil
 
-			 SET @variacaoDiaria = (@valorIndice - @valorAberturaMercado)
+			SET @variacaoDiaria = (@valorIndice - @valorAberturaMercado)
 
 			INSERT INTO Valores_Mercado (Dia, Codigo, ValorIndice, ValorAbertura, VariacaoDiaria) 
 			VALUES (@dia, @codigoMercado, @valorIndice, @valorAberturaMercado, @variacaoDiaria)
